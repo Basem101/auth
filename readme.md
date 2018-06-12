@@ -1,12 +1,11 @@
-Authentication server:
+Authentication server (Back-End):
 
 To Run authentication:
-	cd server/
-	npm install
-	npm run dev 
-
+- cd server/
+- npm install
+- npm run dev 
+server will be running on port 3090: http://localhost:3090/
 open a new terminal navigate to C drive and run mongod to sun mongodb server
-
 
 Backend tech stack:
 - Node
@@ -34,3 +33,15 @@ Development highlevel overview:
 		- Use-case: verify token --> protected Resources Access
 	- Use bcrypt to compare candidate-password with the stored password - DON'T DECODE THE PASSWORD TO COMPARE. instead hash candidate-password and compare hashed passwords.
 6. Use the created strategies as a middleware in router.js to protect resources/routes
+
+
+Authentication (Front-End):
+- we will be using create-react-app npm package to create react boilerplate
+	- npm install -g create-react-app
+	- make sure you are inside auth root directory.
+	- create-react-app client --> will create clinet directory and install all react dependencies 
+
+- install dependencies (react-router, redux, react-redux, redux-form, axios, redux-thunk)
+	- cd client
+	- npm install
+- npm run start (to run development server)
