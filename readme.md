@@ -1,4 +1,12 @@
-Authentication server example;
+Authentication server:
+
+To Run authentication:
+	cd server/
+	npm install
+	npm run dev 
+
+open a new terminal navigate to C drive and run mongod to sun mongodb server
+
 
 Backend tech stack:
 - Node
