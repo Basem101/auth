@@ -1,4 +1,4 @@
-// functional component
+// root component
 import React from 'react';
 import Header from './Header';
 
