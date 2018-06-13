@@ -8,6 +8,8 @@ import api from '../api';
 // signup action creator will take in email, password, and a callback function as arguments
 // the callback function is responsible for redirection the user after signing up.
 // callback function will be invoked after dispatching AUTH_USER action
+// this action creator will save the token in localstorage when users signup successfully.
+// when we load the application. will check for the token in localStorage. if it exist. will load it in initial state. check src/index.js 
 
 export const signup = (email, password, callback) => async dispatch => {
 	// using APIs
@@ -18,6 +20,7 @@ export const signup = (email, password, callback) => async dispatch => {
 			type: actions.AUTH_USER,
 			payload: response.data.token
 		});
+		localStorage.setItem('token', response.data.token);
 		callback();
 	} catch(e) {
 		console.log("e: ", e);

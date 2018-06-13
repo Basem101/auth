@@ -1,3 +1,11 @@
+/**
+ this is the root file for the application
+ create redux store and add reduxThunk as a middleware
+ pass in the created store to the Provider component and wrap the entire application. so we have access to redux state
+
+ add redux dev tool ============ SHOULD BE REMOVED IN PRODUCTION ====================
+ will check for 'token' in localStorage and load the value to our initialState "must match the same structure as the reducer"
+ */
 import React from 'react';
 import ReactDom from 'react-dom';
 import { BrowserRouter, Route } from 'react-router-dom';
@@ -12,16 +20,11 @@ import Welcome from './components/Welcome';
 import Signup from './components/auth/Signup';
 import Feature from './components/Feature';
 
-// create redux store and add reduxThunk as a middleware
-// pass in the created store to Provider component and wrap the entire application
-// const store = createStore(
-// 	reducers,
-// 	{},
-// 	applyMiddleware(reduxThunk),
-// )
 const store = createStore(
 	reducers,
-	{},
+	{ 
+		auth: { authenticated: localStorage.getItem('token') }
+	},
 	composeWithDevTools(
 		applyMiddleware(reduxThunk)
 	)
