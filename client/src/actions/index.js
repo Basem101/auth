@@ -13,10 +13,16 @@ import api from '../api';
 // 	});
 // };
 
-export const signup = (email, password) => dispatch => {
-		// return api.signup(email, password)
-		axios.post('http://localhost:3090/signup', {
-			email: email,
-			password: password
-		});
+export const signup = (email, password) => async dispatch => {
+	// using APIs file
+	const response = await api.signup(email, password);
+	dispatch({
+		type: AUTH_USER,
+		payload: response.data.token
+	});
+	// axios
+	// axios.post('http://localhost:3090/signup', {
+	// 	email: email,
+	// 	password: password
+	// });
 }
