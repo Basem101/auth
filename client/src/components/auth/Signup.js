@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import { reduxForm, Field } from 'redux-form';
 import { compose } from 'redux';
 
-import signup from '../../actions/index';
 import { connect } from 'react-redux';
 import * as actions from '../../actions/index';
 
@@ -12,13 +11,19 @@ class Signup extends Component {
 	// don't need to bind arrow function
 	onSubmit = (formProps) => { // formProps is provided to us by reduxForm
 		const { email, password } = formProps;
-		this.props.signup(email, password);
+		this.props.signup(email, password, () => {
+			// redirection callback. 
+			// must add a the callback as a second parameter to signup action creator.
+			// invoke the callback after dispatching AUTH_USER action.
+			// check signup action creator
+			this.props.history.push('/feature');
+		});
 	};
 
 	render() {
 
-		const {handleSubmit} = this.props;
-
+		const {handleSubmit, errorMessage} = this.props;
+		console.log('error: ', errorMessage)
 		return (
 			<form onSubmit={handleSubmit(this.onSubmit)}>
 				<fieldset>
@@ -39,14 +44,22 @@ class Signup extends Component {
 						autoComplete="none"
 					/>
 				</fieldset>
+				<div>{errorMessage}</div>
 				<button>Signup</button>
 			</form>
 		);
 	}
 }
 
+const mapStateToProps = (state) => {
+	return {
+		errorMessage: state.auth.errorMessage
+	}
+}
+
+
 // compose helper method from redux allows us to apply multiple higher order components to a single component with an easy to read syntax
 export default compose(
-	connect(null, actions),
+	connect(mapStateToProps, actions),
 	reduxForm({form: 'signup'})
 )(Signup);

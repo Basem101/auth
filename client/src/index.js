@@ -10,6 +10,7 @@ import reducers from './reducers/index';
 import App from './components/App';
 import Welcome from './components/Welcome';
 import Signup from './components/auth/Signup';
+import Feature from './components/Feature';
 
 // create redux store and add reduxThunk as a middleware
 // pass in the created store to Provider component and wrap the entire application
@@ -32,6 +33,7 @@ ReactDom.render(
 			<App>
 				<Route path="/" exact component={Welcome} />
 				<Route path="/signup" exact component={Signup} />
+				<Route path="/feature" exact component={Feature} />
 			</App>
 		</BrowserRouter>
 	</Provider>,
