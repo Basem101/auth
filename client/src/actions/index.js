@@ -30,10 +30,19 @@ export const signup = (email, password, callback) => async dispatch => {
 		})
 	}
 
-
 	// axios
 	// axios.post('http://localhost:3090/signup', {
 	// 	email: email,
 	// 	password: password
 	// });
 }
+
+	// signout action
+	// clear the token that is stored in localStorge
+	// dispatch USER_SIGNOUT action that will clear the token that is stored in redux state
+	export const signout = () => {
+		localStorage.removeItem('token');
+		return {
+			type: actions.USER_SIGNOUT
+		}
+	}

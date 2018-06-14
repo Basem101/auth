@@ -1,6 +1,6 @@
 import * as actions from '../actions/types';
 const INITIAL_STATE = {
-	authenticated: '',
+	authenticated: null,
 	errorMessage: ''
 };
 
@@ -13,13 +13,19 @@ export default function (state = INITIAL_STATE, action) {
 				authenticated: action.payload
 			}
 		
-			case actions.AUTH_ERROR:
-				return {
-					...state,
-					errorMessage: action.payload
-				}
+		case actions.AUTH_ERROR:
+			return {
+				...state,
+				errorMessage: action.payload
+			}
 
-			default:
-				return state;
-	}	
+		case actions.USER_SIGNOUT:
+			return {
+				...state,
+				authenticated: null
+			}
+
+		default:
+			return state;
+	}
 }

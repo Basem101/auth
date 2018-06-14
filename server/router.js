@@ -8,9 +8,10 @@ const requireSignin = passport.authenticate('local', {session: false});
 module.exports = function(app) {
 	app.get('/', requireAuth, function(req, res) {
 		res.send({"hi": "there"})
-	}) // just for testing requireAuth middleware
+	})
+	// just for testing requireAuth middleware
 	//  to test. use postman to call signup. copy the token returned from this request
-	// make another get request to '/' and add sutherization peo in header and paste the token value
+	// make another get request to '/' and paste the token in request header authentication property
 	app.post('/signin', requireSignin, authentication.signIn);
 	app.post('/signup', authentication.signUp);
 }
