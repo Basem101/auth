@@ -20,7 +20,6 @@ class Signin extends Component {
 	};
 
 	render() {
-
 		const {handleSubmit, errorMessage} = this.props;
 		console.log('error: ', errorMessage)
 		return (
