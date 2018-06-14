@@ -10,5 +10,14 @@ export default {
 				password:password
 			}
 		);
+	},
+	signin(email, password) {
+		return axios.post(
+			'http://localhost:3090/signin', 
+			{
+				email:email,
+				password:password
+			}
+		);
 	}
 }

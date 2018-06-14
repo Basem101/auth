@@ -28,21 +28,33 @@ export const signup = (email, password, callback) => async dispatch => {
 			type: actions.AUTH_ERROR,
 			payload: 'Email in use'
 		})
-	}
-
-	// axios
-	// axios.post('http://localhost:3090/signup', {
-	// 	email: email,
-	// 	password: password
-	// });
+	}	
 }
 
-	// signout action
-	// clear the token that is stored in localStorge
-	// dispatch USER_SIGNOUT action that will clear the token that is stored in redux state
-	export const signout = () => {
-		localStorage.removeItem('token');
-		return {
-			type: actions.USER_SIGNOUT
-		}
+// signin action creator. same as signup
+export const signin = (email, password, callback) => async dispatch => {
+	try {
+		const response = await api.signin(email, password);
+		dispatch({
+			type: actions.AUTH_USER,
+			payload: response.data.token
+		});
+		localStorage.setItem('token', response.data.token);
+		callback();
+	} catch(e) {
+		dispatch({
+			type: actions.AUTH_ERROR,
+			payload: 'Invalid credentials'
+		})
+	}	
+}
+
+// signout action
+// clear the token that is stored in localStorge
+// dispatch USER_SIGNOUT action that will clear the token that is stored in redux state
+export const signout = () => {
+	localStorage.removeItem('token');
+	return {
+		type: actions.USER_SIGNOUT
 	}
+}

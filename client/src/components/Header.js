@@ -9,10 +9,13 @@ class Header extends Component {
 		return (
 			<div>
 				<Link to="/">Redux Auth</Link>
+				<br />
 				<Link to="/signup">Sign Up</Link>
-				<Link to="/sinin">Sign In</Link>
-
+				<br />
+				<Link to="/signin">Sign In</Link>
+				<br />
 				<Link to="/signout">Sign Out</Link>
+				<br />
 				<Link to="/feature">Feature</Link>
 			</div>
 		);
