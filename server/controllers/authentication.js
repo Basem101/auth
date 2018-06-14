@@ -18,7 +18,7 @@ exports.signUp = function (req, res, next) {
 	const password = req.body.password;
 
 	if(!email || !password) {
-		res.status(422).send({ error: 'You must provide email and password!'});
+		return res.status(422).send({ error: 'You must provide email and password!'});
 	}
 
 	
@@ -29,7 +29,7 @@ exports.signUp = function (req, res, next) {
 
 		// 2. if email exist. return an error
 		if(existingUser) {
-			res.status(422).send({ error: 'Email is in use' }); // 422 is unprocessable entity
+			return res.status(422).send({ error: 'Email is in use' }); // 422 is unprocessable entity
 		}
 
 		// 3. if user does not exist. create a new user
@@ -40,7 +40,7 @@ exports.signUp = function (req, res, next) {
 			// 4. respond to the request indicating the user was created successfully 
 			// generate a token
 			const token = userToken(user);
-			res.json({ token: token });
+			return res.json({ token: token });
 		});
 	});
 }
@@ -49,5 +49,5 @@ exports.signUp = function (req, res, next) {
 exports.signIn = function(req, res, next) {
 	// user has already had their email and password auth'd
 	// we just need to give them a token
-	res.send({ token: userToken(req.user)});
+	return res.send({ token: userToken(req.user)});
 }
