@@ -1,5 +1,6 @@
 import * as actions from './types';
 import api from '../api';
+import axios from 'axios';
 
 // signup actoin creator
 // action creators return a function that return an object
@@ -14,39 +15,80 @@ import api from '../api';
 export const signup = (email, password, callback) => async dispatch => {
 	// using APIs
 	// handle errors useing try catch
-	try {
-		const response = await api.signup(email, password);
-		dispatch({
-			type: actions.AUTH_USER,
-			payload: response.data.token
-		});
-		localStorage.setItem('token', response.data.token);
-		callback();
-	} catch(e) {
-		console.log("e: ", e);
-		dispatch({
-			type: actions.AUTH_ERROR,
-			payload: 'Email in use'
-		})
-	}	
+	axios.post('http://localhost:3090/signup', {
+		email: email,
+		password: password
+	})
+	.then(response => {
+		if(response.status === 200) {
+			dispatch({
+				type: actions.AUTH_USER,
+				payload: response.data.token
+			});
+			localStorage.setItem('token', response.data.token);
+			callback();
+		}
+	})
+	.catch(error => {
+		if (error.response && error.response.status !== 200) {
+			dispatch({
+				type: actions.AUTH_ERROR,
+				payload: error.response.data.error
+			});
+		} else {
+			dispatch({
+				type: actions.AUTH_ERROR,
+				payload: error.message
+			});
+		}
+	});
 }
 
 // signin action creator. same as signup
 export const signin = (email, password, callback) => async dispatch => {
-	try {
-		const response = await api.signin(email, password);
-		dispatch({
-			type: actions.AUTH_USER,
-			payload: response.data.token
-		});
-		localStorage.setItem('token', response.data.token);
-		callback();
-	} catch(e) {
-		dispatch({
-			type: actions.AUTH_ERROR,
-			payload: 'Invalid credentials'
-		})
-	}	
+	// try {
+	// 	const response = await api.signin(email, password);
+	// 	dispatch({
+	// 		type: actions.AUTH_USER,
+	// 		payload: response.data.token
+	// 	});
+	// 	localStorage.setItem('token', response.data.token);
+	// 	callback();
+	// } catch(e) {
+	// 	dispatch({
+	// 		type: actions.AUTH_ERROR,
+	// 		payload: 'Invalid credentials'
+	// 	})
+	// }	
+
+	axios.post('http://localhost:3090/signin', {
+		email: email,
+		password: password
+	})
+	.then(response => {
+		if (response.status === 200) {
+			dispatch({
+				type: actions.AUTH_USER,
+				payload: response.data.token
+			});
+			localStorage.setItem('token', response.data.token);
+			callback();
+		}
+	})
+	.catch(error => {
+		if (error.response && error.response.status !== 200) {
+			dispatch({
+				type: actions.AUTH_ERROR,
+				payload: error.response.data.error
+			});
+		} else {
+			dispatch({
+				type: actions.AUTH_ERROR,
+				payload: error.message
+			});
+		}
+	});
+
 }
 
 // signout action
