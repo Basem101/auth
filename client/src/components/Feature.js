@@ -5,14 +5,16 @@
 */
 import React, { Component } from 'react';
 import requireAuth from './requireAuth';
+import RequireAdmin from './requireAdmin';
 import ContentEditor from './ContentEditor';
 
 class Feature extends Component {
 	render() {
+		const AdminContentEditor = RequireAdmin(ContentEditor);
 		return (
 			<div>
 				<h2>Feature Page</h2>
-				<ContentEditor />
+				<AdminContentEditor />
 			</div>
 		)
 	};
