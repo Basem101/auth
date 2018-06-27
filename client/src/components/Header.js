@@ -3,13 +3,14 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux'; 
+import '../css/header.css';
 
 class Header extends Component {
 
 	renderLinks() {
 		if(this.props.authenticated) {
 			return (
-				<div>
+				<div className="header">
 					<Link to="/feature">Feature</Link>
 					<br />
 					<Link to="/signout">Sign Out</Link>
@@ -17,7 +18,7 @@ class Header extends Component {
 			)
 		} else {
 			return (
-				<div>
+				<div className="header">
 					<Link to="/signup">Sign Up</Link>
 					<br />
 					<Link to="/signin">Sign In</Link>
@@ -28,7 +29,7 @@ class Header extends Component {
 
 	render() {
 		return (
-			<div>
+			<div className="header">
 				<Link to="/">Redux Auth</Link>
 				<br />
 				{ this.renderLinks() }
