@@ -26,7 +26,11 @@ export const signup = (email, password, role, callback) => async dispatch => {
 				type: actions.AUTH_USER,
 				payload: response.data
 			});
-			localStorage.setItem('token', response.data.token);
+			let user = {};
+			user.role = response.data.role;
+			user.email = response.data.email;
+			user.token = response.data.token;
+			localStorage.setItem('user', JSON.stringify(user));
 			callback();
 		}
 	})
@@ -72,15 +76,21 @@ export const signin = (email, password, callback) => async dispatch => {
 				type: actions.AUTH_USER,
 				payload: response.data
 			});
-			localStorage.setItem('token', response.data.token);
+			let user = {};
+			user.role = response.data.role;
+			user.email = response.data.email;
+			user.token = response.data.token;
+			localStorage.setItem('user', JSON.stringify(user));
+			console.log('user object: ', user);
 			callback();
 		}
 	})
 	.catch(error => {
+		console.log("error: ", error);
 		if (error.response && error.response.status !== 200) {
 			dispatch({
 				type: actions.AUTH_ERROR,
-				payload: error.response.data.error
+				payload: "Invalid Credentials"
 			});
 		} else {
 			dispatch({
@@ -89,14 +99,13 @@ export const signin = (email, password, callback) => async dispatch => {
 			});
 		}
 	});
-
 }
 
 // signout action
 // clear the token that is stored in localStorge
 // dispatch USER_SIGNOUT action that will clear the token that is stored in redux state
 export const signout = () => {
-	localStorage.removeItem('token');
+	localStorage.removeItem('user');
 	return {
 		type: actions.USER_SIGNOUT
 	}

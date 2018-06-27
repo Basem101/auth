@@ -22,10 +22,16 @@ import Feature from './components/Feature';
 import Signout from './components/auth/Signout';
 import Signin from './components/auth/Signin';
 
+const user = JSON.parse(localStorage.getItem('user'));
+
 const store = createStore(
 	reducers,
 	{ 
-		auth: { authenticated: localStorage.getItem('token') }
+		auth: { 
+			authenticated: user && user.token ? user.token : '',
+			email: user && user.email ? user.email : '',
+			role: user && user.role ? user.role : ''
+		}
 	},
 	composeWithDevTools(
 		applyMiddleware(reduxThunk)
