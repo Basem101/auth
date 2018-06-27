@@ -40,6 +40,7 @@ class ContentEditor extends Component {
 
 	saveContent() {
 		// the raw state, stringified
+		console.dir(this.state.editorState.getPlainText())
 		const rawDraftContentState = JSON.stringify(convertToRaw(this.state.editorState.getCurrentContent()));
 		// convert the raw state back to a useable ContentState object
 		console.log('row data', rawDraftContentState);
