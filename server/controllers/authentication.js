@@ -16,11 +16,11 @@ function userToken(user) {
 exports.signUp = function (req, res, next) {
 	const email = req.body.email;
 	const password = req.body.password;
+	const role = req.body.role;
 
 	if(!email || !password) {
 		return res.status(422).send({ error: 'You must provide email and password!'});
 	}
-
 	
 	// signup business logic for the signup handler
 	// 1. check if the email exists in the databse
@@ -33,14 +33,14 @@ exports.signUp = function (req, res, next) {
 		}
 
 		// 3. if user does not exist. create a new user
-		const user = new User({email, password}); // this line creates a new user object in memory
+		const user = new User({email, password, role}); // this line creates a new user object in memory
 		user.save(function (err) { // save the new user object to the database
 			if(err) { return next(err); } // if there is an error saving the new record
 
 			// 4. respond to the request indicating the user was created successfully 
 			// generate a token
 			const token = userToken(user);
-			return res.json({ token: token });
+			return res.json({ token: token, role: role, email: email });
 		});
 	});
 }
@@ -49,5 +49,10 @@ exports.signUp = function (req, res, next) {
 exports.signIn = function(req, res, next) {
 	// user has already had their email and password auth'd
 	// we just need to give them a token
-	return res.send({ token: userToken(req.user)});
+	console.log('signIn user: ', req.user);
+	return res.send({ 
+		token: userToken(req.user),
+		email: req.user.email,
+		role: req.user.role
+	});
 }

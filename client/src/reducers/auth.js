@@ -1,18 +1,22 @@
 import * as actions from '../actions/types';
 const INITIAL_STATE = {
+	email: '',
 	authenticated: null,
-	errorMessage: ''
+	role: '',
+	errorMessage: '',
 };
 
 export default function (state = INITIAL_STATE, action) {
 	switch(action.type) {
-		
+
 		case actions.AUTH_USER:
 			return {
 				...state,
-				authenticated: action.payload
+				authenticated: action.payload.token,
+				role: action.payload.role,
+				email: action.payload.email
 			}
-		
+
 		case actions.AUTH_ERROR:
 			return {
 				...state,
@@ -22,7 +26,9 @@ export default function (state = INITIAL_STATE, action) {
 		case actions.USER_SIGNOUT:
 			return {
 				...state,
-				authenticated: null
+				authenticated: null,
+				role: '',
+				email: ''
 			}
 
 		default:

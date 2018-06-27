@@ -12,18 +12,19 @@ import axios from 'axios';
 // this action creator will save the token in localstorage when users signup successfully.
 // when we load the application. will check for the token in localStorage. if it exist. will load it in initial state. check src/index.js 
 
-export const signup = (email, password, callback) => async dispatch => {
+export const signup = (email, password, role, callback) => async dispatch => {
 	// using APIs
 	// handle errors useing try catch
 	axios.post('http://localhost:3090/signup', {
 		email: email,
-		password: password
+		password: password,
+		role: role
 	})
 	.then(response => {
 		if(response.status === 200) {
 			dispatch({
 				type: actions.AUTH_USER,
-				payload: response.data.token
+				payload: response.data
 			});
 			localStorage.setItem('token', response.data.token);
 			callback();
@@ -69,7 +70,7 @@ export const signin = (email, password, callback) => async dispatch => {
 		if (response.status === 200) {
 			dispatch({
 				type: actions.AUTH_USER,
-				payload: response.data.token
+				payload: response.data
 			});
 			localStorage.setItem('token', response.data.token);
 			callback();

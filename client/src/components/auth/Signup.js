@@ -10,8 +10,8 @@ class Signup extends Component {
 
 	// don't need to bind arrow function
 	onSubmit = (formProps) => { // formProps is provided to us by reduxForm
-		const { email, password } = formProps;
-		this.props.signup(email, password, () => {
+		const { email, password, role } = formProps;
+		this.props.signup(email, password, role, () => {
 			// redirection callback. 
 			// must add a the callback as a second parameter to signup action creator.
 			// invoke the callback after dispatching AUTH_USER action.
@@ -27,7 +27,7 @@ class Signup extends Component {
 		return (
 			<form onSubmit={handleSubmit(this.onSubmit)}>
 				<fieldset>
-					<label>Email</label>
+					<label>Email: </label>
 					<Field 
 						name="email"
 						type="text"
@@ -36,10 +36,19 @@ class Signup extends Component {
 					/>
 				</fieldset>
 				<fieldset>
-					<label>Password</label>
+					<label>Password: </label>
 					<Field
 						name="password"
 						type="password"
+						component="input"
+						autoComplete="none"
+					/>
+				</fieldset>
+				<fieldset>
+					<label>Role: </label>
+					<Field
+						name="role"
+						type="role"
 						component="input"
 						autoComplete="none"
 					/>
