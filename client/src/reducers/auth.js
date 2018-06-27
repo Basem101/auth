@@ -14,7 +14,8 @@ export default function (state = INITIAL_STATE, action) {
 				...state,
 				authenticated: action.payload.token,
 				role: action.payload.role,
-				email: action.payload.email
+				email: action.payload.email,
+				errorMessage: ''
 			}
 
 		case actions.AUTH_ERROR:

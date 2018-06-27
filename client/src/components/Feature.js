@@ -5,12 +5,14 @@
 */
 import React, { Component } from 'react';
 import requireAuth from './requireAuth';
+import ContentEditor from './ContentEditor';
 
 class Feature extends Component {
 	render() {
 		return (
 			<div>
 				<h2>Feature Page</h2>
+				<ContentEditor />
 			</div>
 		)
 	};
