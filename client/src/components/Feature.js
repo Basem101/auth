@@ -4,11 +4,13 @@
  redux state authenticated property.
 */
 import React, { Component } from 'react';
-import requireAuth from './requireAuth';
-import requireAdmin from './requireAdmin';
-import ContentEditor from './ContentEditor';
 import DraftExporter from 'draft-js-exporter';
 import { connect } from 'react-redux';
+
+import requireAuth from './requireAuth';
+// import requireAdmin from './requireAdmin';
+import requireEditor from './requireEditor';
+import ContentEditor from './ContentEditor';
 
 class Feature extends Component {
 
@@ -23,13 +25,13 @@ class Feature extends Component {
 	}
 	render() {
 
-		const AdminContentEditor = requireAdmin(ContentEditor);
+		const AdminContentEditor = requireEditor(ContentEditor);
 		console.log(AdminContentEditor)
 		return (
 			<div>
 				<h2>Feature Page</h2>
 				{
-					this.props.role === 'guest' 
+					this.props.role === 'guest'
 					? <div dangerouslySetInnerHTML={ this.createMarkup() } />
 					: <AdminContentEditor />
 				}
