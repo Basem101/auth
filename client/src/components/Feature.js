@@ -7,18 +7,43 @@ import React, { Component } from 'react';
 import requireAuth from './requireAuth';
 import requireAdmin from './requireAdmin';
 import ContentEditor from './ContentEditor';
+import DraftExporter from 'draft-js-exporter';
+import { connect } from 'react-redux';
 
 class Feature extends Component {
+
+	
+	createMarkup() {
+		const editorState = JSON.parse(localStorage.getItem('draftRaw'));
+		const exporter = new DraftExporter(editorState);
+		const content = exporter.export();
+		return {
+			__html: content
+		};
+	}
 	render() {
+
 		const AdminContentEditor = requireAdmin(ContentEditor);
+		console.log(AdminContentEditor)
 		return (
 			<div>
 				<h2>Feature Page</h2>
-				<p> Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum has been the industry 's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
-				<AdminContentEditor />
+				{
+					this.props.role === 'guest' 
+					? <div dangerouslySetInnerHTML={ this.createMarkup() } />
+					: <AdminContentEditor />
+				}
+				
 			</div>
 		)
 	};
 }
 
-export default requireAuth(Feature);
+const mapStateToProps = (state) => {
+	return {
+		role: state.auth.role
+	}
+}
+
+
+export default connect(mapStateToProps)(requireAuth(Feature));

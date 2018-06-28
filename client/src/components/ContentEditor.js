@@ -1,3 +1,13 @@
+/*
+this component is the contentEditor for Admin/Editor roles to edit/update page contents
+for the demo.we will use draft-js platform built by facebook https: //draftjs.org/
+to make things easy for the demo. will store data to localStorage. 
+- initial state for editor is empty
+- look for editorObject in localStorage
+if user's role is viewer-just render a plain text.
+if user's role id admin or editor - render editorState
+*/
+
 import React, { Component } from 'react';
 import {
 	Editor,
@@ -12,8 +22,22 @@ import '../css/editor.css';
 
 class ContentEditor extends Component {
   constructor(props) {
-  	super(props);
-		this.state = { editorState: EditorState.createEmpty() };
+		super(props);
+
+		let initialEditorState = null;
+		const storeRaw = localStorage.getItem('draftRaw');
+
+		if (storeRaw) {
+			const rawContentFromStore = convertFromRaw(JSON.parse(storeRaw));
+			initialEditorState = EditorState.createWithContent(rawContentFromStore);
+		} else {
+			initialEditorState = EditorState.createEmpty();
+		}
+
+		this.state = {
+			editorState: initialEditorState
+		};
+
 		this.onChange = this.onChange.bind(this);
 		this.saveContent = this.saveContent.bind(this);
 	}
@@ -25,38 +49,20 @@ class ContentEditor extends Component {
 		});
 	}
 
-	handleKeyCommand(command, editorState) {
-		const newState = RichUtils.handleKeyCommand(editorState, command);
-		if (newState) {
-			this.onChange(newState);
-			return 'handled';
-		}
-		return 'not-handled';
-	}
-
-	_onBoldClick() {
-		this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, 'BOLD'));
-	}
-
 	saveContent() {
-		// the raw state, stringified
-		console.dir(this.state.editorState.getPlainText())
-		const rawDraftContentState = JSON.stringify(convertToRaw(this.state.editorState.getCurrentContent()));
-		// convert the raw state back to a useable ContentState object
-		console.log('row data', rawDraftContentState);
-		const contentState = convertFromRaw(JSON.parse(rawDraftContentState));
-		console.log('content state: ', contentState);
+		const contentRaw = convertToRaw(this.state.editorState.getCurrentContent());
+		localStorage.setItem('draftRaw', JSON.stringify(contentRaw));
+		// let plainText = ContentState.getPlainText();
+		// localStorage.setItem('plainText', ContentState.getPlainText)
 	}
 
 	render() {
 		return (
 			<div>
 				<h3>Only admin can edit content</h3>
-				<button onClick={this._onBoldClick.bind(this)}>Bold</button>
 				<Editor 
 					editorState={this.state.editorState}
 					onChange={this.onChange}
-					handleKeyCommand={this.handleKeyCommand}
 				/>
 			<button onClick={this.saveContent}>save</button>
 			</div>
