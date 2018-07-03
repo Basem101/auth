@@ -48,7 +48,7 @@ class Signup extends Component {
 					<label>Role: </label>
 					<Field
 						name="role"
-						type="role"
+						type="text"
 						component="input"
 						autoComplete="none"
 					/>
